@@ -71,7 +71,7 @@ def index(request):
             dataset.append(sets)
         return dataset[::-1]
     dataset = get_stock_data(stock_name,time_frame)
-    return render(request, 'stock_tss/index.html', {'name':name,
+    return render(request, 'index.html', {'name':name,
                                                  'stockname': stock_name,
                                                  'time_frame':time_frame,
                                                  'data':dataset[-30:]})
