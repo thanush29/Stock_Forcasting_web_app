@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Project</title>
+    <meta name="description" content="description"/>
+    <meta name="author" content="author" />
+    <meta name="keywords" content="keywords" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> <!-- Added Roboto font -->
+    <link rel="stylesheet" href="{% static 'stylesheet.css' %}" type="text/css" />
+    <style type="text/css">.body { width: auto; }</style>
+</head>
+<script>
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light1",
+            exportEnabled: true,
+            zoomEnabled: true,
+            title: {
+                text: "{{stockname}} {{time_frame}} Stock Price"
+            },
+            axisY: {
+                prefix: "$"
+            },
+            data: [{
+                type: "candlestick",
+                risingColor:"green",
+                color:"black",
+                yValueFormatString: "$#,##0.00",
+                xValueFormatString: "YYYY-MM-DD",
+                xValueType: "dateTime",
+                dataPoints: {{ data|safe }}
+            }]
+        });
+        chart.render();
+    }
+</script>
+<body>
+<h1> {{name}} </h1>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="stockname" placeholder="Enter Stock Name">
+    <button type="submit">submit</button>
+</form>
+<h5> Stock Name {{stockname}}</h5>
+
+<form method='POST'>
+    {% csrf_token %}
+    <button type="submit" name="1min">1min </button>
+    <button type="submit" name="5min">5min </button>
+    <button type="submit" name="15min">15min </button>
+    <button type="submit" name="30min">30min </button>
+    <button type="submit" name="60min">60min </button>
+    <button type="submit" name="1D">Daily </button>
+    <button type="submit" name="1W">Weekly</button>
+    <button type="submit" name="1M">Monthly </button>
+</form>
+<div id="chartContainer" style="height: 360px; width: 100%"></div>
+<script src="{% static 'canvasjs.min.js' %}"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 footer-info">
+                <h3>Live Stock price display</h3>
+                <p>This page displays the live stock details by the user interactive canvas graph view</p>
+            </div>
+            <div class="col-lg-4 col-md-6 footer-links">
+                <h4>This all link take you our website various pages to analysis Stock</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="http://localhost:8501/">Our Future Predict Model</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6 footer-contact">
+                <h4>Contact Us</h4>
+                <p>
+                    Address: No:10 Suriyamman Kovil Street <br>
+                    Phone: +91 9840650939 <br>
+                    Email: thanushlokesh1@gmail.com <br>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="social-links">
+            <a href="https://twitter.com/Thanush_29" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/thanush.k007" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/thanush.29/" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/thanush-k-0ab936246/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
